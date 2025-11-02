@@ -1,0 +1,83 @@
+{% load i18n %}
+{% load static %}
+
+{% load navigation_tags %}
+{% load smart_settings_tags %}
+
+{% spaceless %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" type="button">
+                    <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {# Requisito 4.7: Apenas nome e brasão do Município #}
+                <a class="navbar-brand" href="{% url home_view %}">
+                    <img src="{% static 'appearance/images/brasao-sjp.png' %}"
+                         alt="Brasão de São José dos Pinhais"
+                         style="height: 40px; width: 40px; display: inline-block; margin-right: 10px; vertical-align: middle;">
+                    <span style="vertical-align: middle;">SAME Digital - Prefeitura de São José dos Pinhais</span>
+                </a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {% navigation_resolve_menu name='topbar' as topbar_menus_results %}
+                    {% for tobpar_menu_result in topbar_menus_results %}
+                        {% for link_group in tobpar_menu_result.link_groups %}
+                            {% for link in link_group.links %}
+                                {% with 'true' as as_li %}
+                                {% with 'true' as hide_active_anchor %}
+                                {% with 'active' as li_class_active %}
+                                {% with 'first' as li_class_first %}
+                                {% with ' ' as link_classes %}
+                                    {% include 'navigation/generic_subnavigation.html' %}
+                                {% endwith %}
+                                {% endwith %}
+                                {% endwith %}
+                                {% endwith %}
+                                {% endwith %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {# Incluir CSS customizado inline para garantir que será aplicado #}
+    <style>
+        /* Tema Hospital SJP - Cores do Frontend */
+        .navbar-default {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            border-color: oklch(58% 0.194 264.05) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 65px;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 12px 15px !important;
+        }
+
+        .navbar-default .navbar-nav > li > a {
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 500;
+        }
+
+        .navbar-default .navbar-nav > li > a:hover {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .navbar-default .navbar-toggle .icon-bar {
+            background-color: white !important;
+        }
+    </style>
+{% endspaceless %}
